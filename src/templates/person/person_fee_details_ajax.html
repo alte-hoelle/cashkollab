@@ -1,0 +1,166 @@
+{% load custom_filter %}
+<div class="w3-container sticky mb-3">
+    <div class="p-3 border bg-light">
+        <div class="row ">
+            <h4>all</h4>
+            <table id="amounts" class="table table-striped table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th class="form-group text-end col-md-1 mb-0">payed fees</th>
+                    <th class="form-group text-end col-md-1 mb-0">missing fees</th>
+                    <th class="form-group text-end col-md-1 mb-0">payed support</th>
+                    <th class="form-group text-end col-md-1 mb-0">missing support</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <th style="color:{{ all_payed_fees|amount_color }}" class="form-group text-end col-md-1 mb-0" >{{ all_payed_fees }}</th>
+                <th style="color:{{ all_member_fees_open|amount_color }}" class="form-group text-end col-md-1 mb-0" >{{ all_member_fees_open }}</th>
+                <th style="color:{{ all_payed_support|amount_color }}" class="form-group text-end col-md-1 mb-0" >{{ all_payed_support }}</th>
+                <th style="color:{{ all_support_open|amount_color }}" class="form-group text-end col-md-1 mb-0" >{{ all_support_open }}</th>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+<div class="w3-container sticky">
+    <div class="p-3 border bg-light">
+        <div class="row  mb-3">
+            <h4>{{ name }}</h4>
+            <table id="amounts" class="table table-striped table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th class="form-group col-md-2 mb-0"><b></b></th>
+                    <th class="form-group text-end col-md-1 mb-0">Membership fees</th>
+                    <th class="form-group text-end col-md-1 mb-0">Support</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th class="form-group col-md-2 mb-0">Promised</th>
+                    <th style="color:{{ member_fees_due|amount_color }}"
+                        class="form-group text-end col-md-1 mb-0">{{ member_fees_due }}</th>
+                    <th style="color:{{ support_due|amount_color }}"
+                        class="form-group text-end col-md-1 mb-0">{{ support_due }}</th>
+
+                </tr>
+
+                <tr>
+                    <th class="form-group col-md-2 mb-0">Payed</th>
+                    <th style="color:{{ member_fees_payed|amount_color }}"
+                        class="form-group text-end col-md-1 mb-0">{{ member_fees_payed }}</th>
+                    <th style="color:{{ support_payed|amount_color }}"
+                        class="form-group text-end col-md-1 mb-0">{{ support_payed }}</th>
+
+                </tr>
+                <tr>
+                    <th class="form-group col-md-2 mb-0">Difference</th>
+                    <th style="color:{{ member_fees_open|amount_color }}"
+                        class="form-group text-end col-md-1 mb-0">{{ member_fees_open }}</th>
+                    <th style="color:{{ support_open|amount_color }}"
+                        class="form-group text-end col-md-1 mb-0">{{ support_open }}</th>
+                </tr>
+                <tr>
+                    <th colspan="2" class="form-group text-end col-md-1 mb-0">Supporter</th>
+                    <th class="form-group text-end col-md-1 mb-0">{{ support }}</th>
+                </tr>
+                <tr>
+                    <th colspan="2" class="form-group text-end col-md-1 mb-0">Member</th>
+                    <th class="form-group text-end col-md-1 mb-0">{{ member }}</th>
+                </tr>
+                </tbody>
+
+
+            </table>
+        </div>
+        <h4>fee and support payments</h4>
+        <div class="row mb-3">
+            <table id="payments" class="table table-striped table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th class="mb-0">date</th>
+                    <th class="mb-0">comment</th>
+                    <th class="mb-0">amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for value in fee_and_support_payments %}
+                    <tr>
+                        <th class="mb-0">{{ value.date}}</th>
+                        <th class="mb-0">{{ value.comment }}</th>
+                        <th style="color:{{ value.signed|amount_color }}" class="mb-0">{{ value.signed }}</th>
+                        </tr>
+                    {% endfor %}
+                
+                </tbody>
+            </table>
+
+        </div>
+        <h4>fee and support changes</h4>
+        <div class="row mb-3">
+            <table id="payments" class="table table-striped table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th class="mb-0">type</th>
+                    <th class="mb-0">date</th>
+                    <th class="mb-0">amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for value in fee_and_support_changes %}
+                    <tr>
+                        <th class="mb-0">{{ value.type}}</th>
+                        <th class="mb-0">{{ value.date }}</th>
+                        <th class="mb-0">{{ value.amount }}</th>
+                        </tr>
+                    {% endfor %}
+                
+                </tbody>
+            </table>
+
+        </div>
+        <div class="row mb-3">
+            <input class="btn btn-danger" type="button" name="remind" value="Send E-Mail reminder" id="button"/>
+        </div>
+    
+        <div class="row mb-3">
+            <table id="payments" class="table table-striped table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th class="mb-0">date</th>
+                    <th class="mb-0">support</th>
+                    <th class="mb-0">fee</th>
+                    <th class="mb-0">payment</th>
+                    <th class="mb-0">diff</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for value in fee_and_support_table %}
+                    <tr>
+                        <th class="mb-0">{{ value.0 }}</th>
+                        <th class="mb-0">{{ value.1 }}</th>
+                        <th class="mb-0">{{ value.2 }}</th>
+                        <th class="mb-0">{{ value.3 }}</th>
+                        <th style="color:{{ value.4|amount_color }}" class="mb-0">{{ value.4 }}</th>
+                        </tr>
+                    {% endfor %}
+                
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+<style>
+    div.sticky {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        background-color: #666;
+        padding: 4px;
+        font-size: 14px;
+    }
+
+</style>

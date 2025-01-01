@@ -1,0 +1,7 @@
+*
+!src
+!data
+data/export/*
+!pyproject.toml
+!poetry.lock
+!README.md

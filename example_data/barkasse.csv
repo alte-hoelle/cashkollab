@@ -1,0 +1,8 @@
+Journal Number;Bezeichnung Auftragskonto;IBAN Auftragskonto;BIC Auftragskonto;Bankname Auftragskonto;Buchungstag;Valutadatum;Name Zahlungsbeteiligter;IBAN Zahlungsbeteiligter;BIC (SWIFT-Code) Zahlungsbeteiligter;Buchungstext;Verwendungszweck;Betrag;Waehrung;Saldo nach Buchung;Bemerkung;Kategorie;Kommentar;Steuerrelevant;Glaeubiger ID;Mandatsreferenz
+1;Barkasse;-;-;-;30.03.2022;30.03.2022;Holzhandel;-;-;-;Holz für Schuppen;-2292,65;EUR;0;Sanierung;i;;;DE34ZZZ00002416405;TW00094448
+2;Barkasse;-;-;-;10.04.2022;10.04.2022;Gemeinschaft;-;-;-;Schimpfwortkasse;704;EUR;0;AG Nicht Sterben;l;;;DE34ZZZ00002416407;TW00094450
+3;Barkasse;-;-;-;12.04.2022;12.04.2022;Heizölfirma;-;-;-;Bezahlung Heizöl;-3312,36;EUR;0;Heizen;i;;;DE34ZZZ00002416409;TW00094452
+4;Barkasse;-;-;-;19.04.2022;19.04.2022;Gemeinschaft;-;-;-;Käsekasse;736;EUR;0;AG Nicht Essen;l;;;DE34ZZZ00002416410;TW00094453
+5;Barkasse;-;-;-;24.04.2022;24.04.2022;Tag der kaputten Tür;-;-;-;Spenden;309,32;EUR;0;Veranstaltungen;g;;;DE34ZZZ00002416419;TW00094462
+6;Barkasse;-;-;-;05.05.2022;05.05.2022;Gemeinschaft;-;-;-;Wurstkasse;412;EUR;0;AG Nicht Essen;g;;;DE34ZZZ00002416420;TW00094463
+7;Barkasse;-;-;-;29.05.2022;29.05.2022;Hannelore Müller;-;-;-;Siebdruck;-131,6;EUR;0;Infernodesign;g;;;DE34ZZZ00002416421;TW00094464

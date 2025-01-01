@@ -1,0 +1,54 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light p-4">
+    <a class="navbar-brand" href="{% url 'home' %}">
+        <div class="d-flex">
+            <img src="{% static 'img/logo.png' %}" width="40" height="40" alt="" class="mr-3">
+            <h2>CashWizz</h2>
+        </div>
+
+    </a>
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav  mr-auto mt-2 mt-lg-0">
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'journal_list' %}">journal</a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'cost_centers_overview' %}">cost centers</a>
+
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link active dropdown-toggle" role="button" id="navbarDropdownMenuLink2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >persons</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                        <a class="dropdown-item" href="{% url 'person_fee_table' %}">fees and support</a>
+                        <a class="dropdown-item" href="{% url 'person_fee_not_linked_table' %}">not linked</a>
+                    </div>
+                </li>
+                    
+                <li class="nav-item dropdown">
+                    <a class="nav-link active dropdown-toggle" role="button" id="navbarDropdownMenuLink2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >budget</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                        <a class="dropdown-item" href="{% url 'budget_overview' %}">overview</a>
+                        <a class="dropdown-item" href="{% url 'budget_charts' %}">charts</a>
+                    </div>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link active dropdown-toggle" role="button" id="navbarDropdownMenuLink2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >spending</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                        <a class="dropdown-item" href="{% url 'spending_yearly'  %}">per year</a>
+                        <a class="dropdown-item" href="{% url 'spending_monthly' %}">per month</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'update_database' %}">UPDATE DATABASE</a>
+
+                </li>
+            </ul>
+    </div>
+</nav>

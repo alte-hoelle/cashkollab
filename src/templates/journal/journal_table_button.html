@@ -1,0 +1,4 @@
+<form method="post" id="personOverview" novalidate data-payment-url="{% url 'ajax_load_payment_details' record.pk %}">
+    {% csrf_token %}
+    <input data-id="{{ record.id }}" class="btn btn-danger payment-button" type="button" name="lend" value="Details" id="button"/>
+</form>

@@ -1,0 +1,74 @@
+variables:
+  POETRY_VIRTUALENVS_IN_PROJECT: "true"
+
+stages:
+  - dependencies
+  - lint
+
+cache: &dependency_cache
+  key:
+    files:
+      - poetry.lock
+  paths:
+    - .venv
+  policy: pull
+
+format:
+  image: duffn/python-poetry:3.10-slim
+  stage: lint
+  script:
+    - poetry run black --check --diff */
+  needs:
+    - dependencies310
+
+isort:
+  image: duffn/python-poetry:3.10-slim
+  stage: lint
+  before_script:
+    - pip install -U isort
+  script:
+    - isort --check-only .
+  needs: []
+
+dependencies310:
+  image: duffn/python-poetry:3.10-slim
+  stage: dependencies
+  cache:
+    <<: *dependency_cache
+    policy: pull-push
+  artifacts:
+    expire_in: 1 days
+    paths:
+      - .venv
+  script:
+    - poetry install
+    - poetry check
+  needs: []
+
+mypy:
+  image: duffn/python-poetry:3.10-slim
+  stage: lint
+  cache:
+    key: $CI_JOB_NAME
+    paths:
+      - .mypy_cache
+  script:
+    - poetry run mypy src
+  artifacts:
+    expire_in: 1 days
+    paths:
+      - xunit-reports/*
+  needs:
+    - dependencies310
+
+ruff:
+  image: duffn/python-poetry:3.10-slim
+  stage: lint
+  cache:
+    key: $CI_JOB_NAME
+    paths:
+      - .pylint_cache
+  script:
+    - poetry run ruff src
+  needs:
+    - dependencies310

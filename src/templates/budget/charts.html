@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% load render_table from django_tables2 %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+    Zahlungsvorgänge
+{% endblock %}
+
+{% block body %}
+
+    <center class="row">
+        <h1>Budgetübersicht</h1>
+    </center>
+    <hr/>
+
+
+    <body>
+    <p id="output"></p>
+
+    <center class="row">
+        <h1>Kreditherkunft</h1>
+    </center>
+
+    <p id="pie"></p>
+    </body>
+    
+    <script>
+        var endpoint = '{% url 'api_budget_overview_chart' %}';
+
+        $.ajax({
+
+            method: "GET",
+            url: endpoint,
+            success: function (data) {
+
+                var text = "";
+                var lol = data.chartdata_c;
+
+                text += "<div class=\"row\">";
+                text += "<div class=\"col-md-12\"><canvas id=1></canvas></div>";
+                text += "</div>";
+
+                var text2 = ""
+                text2 += "<div class=\"row\">";
+                text2 += "<div class=\"col-md-12\"><canvas id=2></canvas></div>";
+                text2 += "</div>";
+
+                document.getElementById('output').innerHTML = text;
+                document.getElementById('pie').innerHTML = text2;
+                drawBarGraph(data)
+                drawPieChart(data)
+
+                console.log("drawing");
+            },
+            error: function (error_data) {
+                console.log(error_data);
+            }
+        })
+
+
+        function drawPieChart(data) {
+            var labels = data.credit_labels
+            var graphdata = data.credit_amounts
+
+            var ctx = document.getElementById("2").getContext('2d')
+
+            var loldata = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: labels,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        hoverBackgroundColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1,
+                        data: data.credit_amounts
+                    }
+                ]
+
+            }
+
+            var chart = new Chart(ctx, {
+
+                type: 'pie',
+                data: loldata,
+                options: {
+                    plugins: {
+                        legend: false,
+                        tooltip: false,
+                    },
+                    elements: {
+                        arc: {}
+                    },
+                    cutoutPercentage: 50
+                }
+            });
+        }
+
+
+        function drawBarGraph(data) {
+            var labels = data.labels;
+            var graphdata = [data.budgetdata, data.spentdata];
+            var budgetnames = data.budgetnames;
+
+            var ctx = document.getElementById("1").getContext('2d');
+
+            var loldata = {
+                labels: budgetnames,
+                datasets: [
+                    {
+                        label: labels[0],
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        data: data.budgetdata
+                    },
+                    {
+                        label: labels[1],
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1,
+                        data: data.spentdata
+                    }
+                ]
+            };
+            var myChart = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: loldata,
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+
+        }
+
+
+    </script>
+{% endblock %}

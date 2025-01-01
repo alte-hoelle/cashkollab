@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %} {% endblock %}</title>
+
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/chart.2.9.4.min.js' %}"></script>
+    <script type="text/javascript"  src="{% static 'js/hellcash.js' %}"></script>
+    <link id="bootstrap" href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"/>
+</head>
+<body class="g-sidenav-show">
+{% include 'navbar.html' %}
+{% include 'messages.html' %}
+<main class="main-content position-relative col-12 container mt-5">
+    {% block body %} {% endblock %}
+</main>
+</body>
+</html>
+
+
+
+

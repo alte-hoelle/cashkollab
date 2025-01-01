@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load custom_filter %}
+{% block title %}
+    Zahlungsvorgänge
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <h1>Budgets</h1>
+    </div>
+    <div class="row">
+        <div class="w3-container">
+            <div class="p-3 border bg-light">
+                <table id="amounts" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th class="form-group col-md-3 mb-0 bg-white">budget</th>
+                        <th class="form-group col-md-3 mb-0 bg-white">group</th>
+                        <th class="form-group text-end  col-md-3 mb-0 bg-white">budget</th>
+                        <th class="form-group text-end  col-md-3 mb-0 bg-white">spend</th>
+                        <th class="form-group text-end  col-md-3 mb-0 bg-white">available</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for value in budget %}
+                            <tr>
+                            <th class="form-group text-right col-md-2 mb-0 bg-white">
+                                <a href="{% url 'journal_list' %}?purpose__name__contains={{ value.0 }}">
+                                {{ value.0 }}
+                                </a>
+                                (
+                                <a href="{{ value.5 }}">
+                                    gitlab
+                                </a>
+                                )
+                            </th>
+                            <th class="form-group text-right col-md-2 mb-0 bg-white">{{ value.1 }}</th>
+                            <th style="color:{{ value.2|amount_color }}" class=" text-end form-group text-right col-md-2 mb-0 bg-white">{{ value.2|floatformat:2 }}</th>
+                            <th style="color:{{ value.3|amount_color }}" class=" text-end form-group text-right col-md-2 mb-0 bg-white">{{ value.3|floatformat:2 }}</th>
+                            <th style="color:{{ value.4|amount_color }}" class="text-end  form-group text-right col-md-2 mb-0 bg-white">{{ value.4|floatformat:2 }}</th>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-5">
+        <h1>Credits</h1>
+    </div>
+    <div class="row">
+        <div class="w3-container">
+            <div class="p-3 border bg-light">
+                <table id="amounts" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th class="form-group col-md-3 mb-0 bg-white">name</th>
+                        <th class="text-end form-group col-md-3 mb-0 bg-white">amount</th>
+                        <th class="text-end form-group col-md-3 mb-0 bg-white">pay off</th>
+                        <th class="text-end form-group col-md-3 mb-0 bg-white">remaining</th>
+                        <th class="form-group col-md-3 mb-0 bg-white"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for value in credit %}
+                            <tr>
+                            <th class="form-group text-right col-md-2 mb-0 bg-white">
+                                <a href="{% url 'journal_list' %}?purpose__name__contains={{ value.0 }}">
+                                {{ value.0 }}
+                                </a>
+                            </th>
+                            <th style="color:green" class="text-end form-group col-md-2 mb-0 bg-white">{{ value.1|floatformat:2 }}</th>
+                            <th style="color:{{ value.2|amount_color }}" class="text-end form-group col-md-2 mb-0 bg-white">{{ value.2|floatformat:2 }}</th>
+                            <th style="color:{{ value.3|amount_color_reverse }}" class="text-end form-group col-md-2 mb-0 bg-white">{{ value.3|floatformat:2 }}</th>
+                            <th style="color:green" class="form-group col-md-8 mb-0 bg-white"></th>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+{% load render_table from django_tables2 %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+    Payment contacts
+{% endblock %}
+
+
+{% block body %}
+    <div class="row">
+        <h2>membership and support fees</h2>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-6" id="person-table">
+            <div class="row">
+                <form method="get">
+                    <div class="row form-row ">
+                        <div class="col-8">
+                            {% bootstrap_form filter.form show_label='skip' %}
+                        </div>
+                        <div class="col-4">
+                            {% bootstrap_button 'filter' extra_classes="col-12 " %}
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            {% render_table table 'django_tables2/bootstrap4.html' %}
+        </div>
+        <div class="col-6">
+
+            <div class="row mt-6">
+                <div id="output"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function get_data(url, element_id = "output") {
+            $.ajax({
+                url: url,
+                success: function (data) {
+                    document.getElementById(element_id).innerHTML = data;
+                }
+
+            });
+        }
+
+        $(document).ready(function () {
+            // see hellcash.js
+            get_data($(".user-button:first").parent().attr("data-person-url"))
+        })
+
+        $(".user-button").click(function () {
+            // see hellcash.js
+            get_data($(this).parent().attr("data-person-url"))
+        });
+    </script>
+{% endblock %}

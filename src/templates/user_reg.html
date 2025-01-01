@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %} Register a new user {% endblock %}
+{% block body %}
+
+    <h1> Neue Nutzerin registrieren</h1>
+
+    {% load crispy_forms_tags %}
+    {% crispy UserRegistrationForm %}
+
+    <h1> Userin über Chip registrieren </h1>
+
+
+    <h1> LDAP Account verbinden </h1>
+    Hallo Simon, na?
+{% endblock %}

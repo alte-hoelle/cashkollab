@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load render_table from django_tables2 %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+    Zahlungsvorgänge
+{% endblock %}
+
+{% block body %}
+
+    <center class="row">
+        <h1>cost centers</h1>
+    </center>
+    <hr/>
+
+
+    <body>
+    <p id="output"></p>
+    </body>
+
+
+    <script>
+        var endpoint = '{% url 'api_cost_center_overview_chart' %}';
+
+        $.ajax({
+
+            method: "GET",
+            url: endpoint,
+            success: function (data) {
+
+                var text = "";
+                var lol = data.chartdata_c;
+
+                for (let i = 0; i < data.len_graphs; i += 2) {
+                    text += "<div class=\"row\">";
+                    text += "<div class=\"col-md-6\"><canvas id=\"" + i + "\"></canvas></div>";
+                    text += "<div class=\"col-md-6\"><canvas id=\"" + (i + 1) + "\"></canvas></div>";
+                    text += "</div>";
+                }
+
+
+                document.getElementById('output').innerHTML = text;
+                drawLineGraph(data)
+
+                console.log("drawing");
+            },
+            error: function (error_data) {
+                console.log(error_data);
+            }
+        })
+
+
+        function drawLineGraph(data) {
+            var labels = data.labels;
+            var len = data.len_graphs;
+            var chartLabel = data.chartLabel;
+            var chartdata = data.chartdatalist;
+            var sti = [];
+            for (let i = 0; i < data.len_graphs; i++) {
+                var text = "";
+                text += i;
+                var ctx = document.getElementById(text).getContext('2d');
+                sti.push(ctx)
+            }
+
+            for (let i = 0; i < data.len_graphs; i++) {
+                var chart = new Chart(sti[i], {
+                    // The type of chart we want to create
+                    type: 'line',
+
+                    // The data for our dataset
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: chartLabel[i],
+                            backgroundColor: 'rgb(255, 100, 200)',
+                            borderColor: 'rgb(55, 99, 132)',
+                            data: chartdata[i],
+                        }]
+                    },
+
+                    // Configuration options go here
+                    options: {
+                        scales: {
+                            xAxes: [{
+                                display: true
+                            }],
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+
+                });
+            }
+
+
+        }
+
+
+    </script>
+{% endblock %}

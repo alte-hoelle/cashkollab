@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load custom_filter %}
+{% load render_table from django_tables2 %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+    Monatliche Übersicht Ausgaben/Einnahmen
+
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <h2>monthly spendings ({{ month }})</h2>
+    </div>
+    <div class="row mt-2">
+        <form>
+            <select class="custom-select" onchange="location = this.value;">
+                {% for value in months %}
+                    <option value="{% url 'spending_monthly' value|get_year value|get_month %}"  {% if value == month %}
+                            selected {% endif %}>{{ value }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+    <div class="row mt-4">
+        <div>
+            removed columns:
+            {% for value in removed %}
+                <a href="{{ request.path|remove_category_from_url:value }}">{{ value }}</a>,
+            {% endfor %}
+        </div>
+    </div>
+    <div class="w3-container mt-2">
+        <div class="p-3 border bg-light">
+            <table id="amounts" class="table table-striped">
+                <thead>
+                <tr>
+                    <th class="form-group col-md-1 mb-0 bg-white">Budget</th>
+                    {% for value in payment_categories %}
+
+                        <th class="form-group text-end col-md-1 mb-0 bg-white">{{ value|clean_string }} <a
+                                href="{{ request.path|add_category_to_url:value }}">x</a></th>
+
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for key, value in spendings.items %}
+                    <tr>
+                        <th class="form-group col-md-1 mb-0">{{ key }}</th>
+                        {% for _, value in value.items %}
+                            <th style="color:{{ value|amount_color }}"
+                                class="form-group text-end col-md-1 mb-0">{{ value|floatformat:2 }}</th>
+                        {% endfor %}
+                    </tr>
+
+                {% endfor %}
+
+                <tr>
+                    <th class="form-group col-md-1 mb-0">Result</th>
+                    {% for _, value in result.items %}
+                        <th style="color:{{ value|amount_color }}"
+                            class="form-group text-end col-md-1 mb-0">{{ value|floatformat:2 }}</th>
+                    {% endfor %}
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+{% endblock %}
+    

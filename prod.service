@@ -1,0 +1,22 @@
+[Unit]
+Description=hellcash_prod
+After=syslog.target
+
+[Service]
+Type=simple
+Environment=PATH=/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=LD_LIBRARY_PATH=/opt/TensorRT-6.0.1.5/lib:/usr/local/cuda-11.0/lib64
+WorkingDirectory=/home/hellcash/hellcash
+ExecStart=/home/automodal/.local/bin/poetry run python src/manage.py runserver
+Environment=PYTHONUNBUFFERED=1
+User=hellcash
+Group=hellcash
+
+SyslogIdentifier=hellcash_prod
+StandardOutput=syslog
+StandardError=syslog
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,5 @@
+
+<form method="post" novalidate data-person-url="{% url 'view_person_fee_details' record.pk %}">
+    {% csrf_token %}
+    <input class="btn  btn-danger user-button" type="button" name="lend" value="Details" data-id="{{ record.pk }}"/>
+</form>
